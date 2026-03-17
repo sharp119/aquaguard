@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AquaGuard - Sensor Inventory &amp; Anomalies</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1975d2",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col">
+<div class="p-6 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800">
+<div class="bg-primary rounded-lg p-2 text-white">
+<span class="material-symbols-outlined block">waves</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none">AquaGuard</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Sensor Management</p>
+</div>
+</div>
+<nav class="flex-1 p-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">sensors</span>
+<span class="text-sm font-medium">Sensors</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="text-sm font-medium">Anomalies</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">description</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-8 shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="text-lg font-bold">Sensor Inventory &amp; Anomalies</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 placeholder:text-slate-500" placeholder="Search sensors..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs border border-primary/30">
+                        JD
+                    </div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Intro -->
+<div>
+<h1 class="text-3xl font-black tracking-tight">Data Exploration</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Monitor real-time sensor performance and flagged anomalies across all zones.</p>
+</div>
+<!-- Flagged Anomalies Section -->
+<section>
+<h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-amber-500">campaign</span>
+                            Flagged Anomalies
+                        </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Critical Bursts Card -->
+<div class="bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-red-200 dark:border-red-900/50">
+<div class="bg-red-50 dark:bg-red-900/10 p-6 rounded-lg flex gap-6">
+<div class="w-32 h-32 shrink-0 rounded-lg overflow-hidden bg-slate-200" data-alt="Abstract red heat map pattern visualization">
+<div class="w-full h-full bg-gradient-to-br from-red-500 to-red-700 opacity-80 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-4xl">bolt</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-[10px] font-bold uppercase tracking-wider rounded">Critical</span>
+</div>
+<h4 class="text-xl font-bold mt-2">Critical Bursts</h4>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">3 active alerts detected in Zone 4. Immediate intervention required.</p>
+<div class="mt-4 flex items-center gap-2 text-red-600 dark:text-red-400 font-semibold text-sm">
+<span class="material-symbols-outlined text-sm">error</span>
+                                            High Priority
+                                        </div>
+</div>
+</div>
+</div>
+<!-- Pressure Warnings Card -->
+<div class="bg-white dark:bg-slate-900 p-1 rounded-xl shadow-sm border border-amber-200 dark:border-amber-900/50">
+<div class="bg-amber-50 dark:bg-amber-900/10 p-6 rounded-lg flex gap-6">
+<div class="w-32 h-32 shrink-0 rounded-lg overflow-hidden bg-slate-200" data-alt="Abstract amber wavy wave pattern visualization">
+<div class="w-full h-full bg-gradient-to-br from-amber-400 to-amber-600 opacity-80 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-4xl">speed</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<span class="px-2 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-500 text-[10px] font-bold uppercase tracking-wider rounded">Warning</span>
+</div>
+<h4 class="text-xl font-bold mt-2">Pressure Warnings</h4>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">8 sensors reporting abnormal pressure levels in Zone 1 &amp; 3.</p>
+<div class="mt-4 flex items-center gap-2 text-amber-600 dark:text-amber-500 font-semibold text-sm">
+<span class="material-symbols-outlined text-sm">warning</span>
+                                            Moderate Priority
+                                        </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Global Sensor Dataset Section -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<h3 class="text-xl font-bold">Global Sensor Dataset</h3>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                                    Filter
+                                </button>
+<button class="flex items-center gap-2 px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">download</span>
+                                    Export
+                                </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Sensor ID</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Zone</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Flow Rate (LPM)</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Baseline (LPM)</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Pressure (PSI)</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">Status</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-7721</td>
+<td class="px-6 py-4 text-sm text-slate-500">Main Arterial 4</td>
+<td class="px-6 py-4 text-sm font-semibold text-red-600">452.1</td>
+<td class="px-6 py-4 text-sm text-slate-500">120.0</td>
+<td class="px-6 py-4 text-sm">82.4</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Burst</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-8942</td>
+<td class="px-6 py-4 text-sm text-slate-500">South Grid 1</td>
+<td class="px-6 py-4 text-sm">118.5</td>
+<td class="px-6 py-4 text-sm text-slate-500">115.0</td>
+<td class="px-6 py-4 text-sm font-semibold text-amber-500">105.2</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-500">High Pressure</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-1033</td>
+<td class="px-6 py-4 text-sm text-slate-500">East Reservoir</td>
+<td class="px-6 py-4 text-sm">240.0</td>
+<td class="px-6 py-4 text-sm text-slate-500">238.0</td>
+<td class="px-6 py-4 text-sm">45.8</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Stable</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-5501</td>
+<td class="px-6 py-4 text-sm text-slate-500">West Sector B</td>
+<td class="px-6 py-4 text-sm">88.2</td>
+<td class="px-6 py-4 text-sm text-slate-500">90.0</td>
+<td class="px-6 py-4 text-sm">52.1</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Stable</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-4428</td>
+<td class="px-6 py-4 text-sm text-slate-500">North Sector C</td>
+<td class="px-6 py-4 text-sm font-semibold text-red-600">620.4</td>
+<td class="px-6 py-4 text-sm text-slate-500">150.0</td>
+<td class="px-6 py-4 text-sm">74.5</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">Critical Leak</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<td class="px-6 py-4 text-sm font-medium">AG-2109</td>
+<td class="px-6 py-4 text-sm text-slate-500">Central Pump House</td>
+<td class="px-6 py-4 text-sm">310.2</td>
+<td class="px-6 py-4 text-sm text-slate-500">305.0</td>
+<td class="px-6 py-4 text-sm">58.9</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400">Maintenance</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:underline text-sm font-medium">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing 6 of 1,284 sensors</span>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="px-3 py-1 text-sm font-medium rounded bg-primary text-white">1</button>
+<button class="px-3 py-1 text-sm font-medium rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">2</button>
+<button class="px-3 py-1 text-sm font-medium rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">3</button>
+<button class="p-1 rounded border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import random
 import csv
 import os
+from sklearn.ensemble import IsolationForest
 
 # ─────────────────────────────────────────────
 # Configuration
@@ -121,8 +122,25 @@ def generate_sensor_data(total=400, anomaly_pct=0.08, seed=42):
     return data
 
 
+def ml_detection(df):
+    """Run Isolation Forest on flow, baseline, and pressure."""
+    if len(df) == 0:
+        df["ml_status"] = "Normal"
+        return df
+        
+    contamination = 0.05
+    model = IsolationForest(contamination=contamination, random_state=42)
+    
+    # Needs flow, baseline, pressure for ML model
+    X = df[["flow_rate_lpm", "baseline_mean", "pressure_psi"]]
+    preds = model.fit_predict(X)
+    
+    df["ml_status"] = ["ML Anomaly" if x == -1 else "Normal" for x in preds]
+    return df
+
+
 def classify_sensors(data):
-    """Add status column to data."""
+    """Add rule-based status column to data."""
     results = []
     for row in data:
         s = Sensor(**row)
@@ -303,22 +321,39 @@ st.markdown("""
 
 
 # ─────────────────────────────────────────────
-# Data Load
+# Data Load (Using Sidebar Inputs)
 # ─────────────────────────────────────────────
-raw_data = generate_sensor_data()
+st.sidebar.markdown("<!-- placeholder for execution order -->", unsafe_allow_html=True) # Will be defined below
+raw_data = generate_sensor_data(total=st.session_state.get('sim_sensors', 400), 
+                                anomaly_pct=st.session_state.get('sim_anomaly_pct', 0.08), 
+                                seed=st.session_state.get('sim_seed', 42))
 classified = classify_sensors(raw_data)
-df = pd.DataFrame(classified)
+df_base = pd.DataFrame(classified)
+df = ml_detection(df_base)
 
 
 # ─────────────────────────────────────────────
-# Sidebar Filters
+# Sidebar Filters & Controls
 # ─────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## 🌊 AquaGuard")
-    st.markdown("**Water Leakage Detection System**")
+    st.markdown("**Hybrid Leakage Detection System**")
     st.markdown("---")
 
-    st.markdown("### 🔧 Filters")
+    st.markdown("### ⚙️ Simulation Settings")
+    sim_sensors = st.slider("Total Sensors", min_value=100, max_value=2000, value=st.session_state.get('sim_sensors', 400), step=50)
+    sim_anomaly_pct = st.slider("Anomaly Probability", min_value=1, max_value=20, value=int(st.session_state.get('sim_anomaly_pct', 0.08) * 100), step=1) / 100.0
+    sim_seed = st.number_input("Random Seed", min_value=1, value=st.session_state.get('sim_seed', 42))
+    
+    if st.button("Run Simulation 🚀", use_container_width=True):
+        st.session_state['sim_sensors'] = sim_sensors
+        st.session_state['sim_anomaly_pct'] = sim_anomaly_pct
+        st.session_state['sim_seed'] = sim_seed
+        st.cache_data.clear()
+        st.rerun()
+    
+    st.markdown("---")
+    st.markdown("### 🔧 Data Filters")
     selected_zones = st.multiselect(
         "City Zones",
         options=sorted(df["location_zone"].unique()),
@@ -373,6 +408,7 @@ st.markdown("")
 total = len(df_filtered)
 bursts_count = len(df_filtered[df_filtered["status"] == "Major Burst"])
 pressure_count = len(df_filtered[df_filtered["status"] == "Pressure Alert"])
+ml_count = len(df_filtered[df_filtered["ml_status"] == "ML Anomaly"])
 normal_count = len(df_filtered[df_filtered["status"] == "Normal"])
 anomaly_rate = ((bursts_count + pressure_count) / total * 100) if total else 0
 
@@ -388,21 +424,21 @@ with k1:
 with k2:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">🚨 Major Bursts</div>'
-        f'<div class="kpi-value danger">{bursts_count}</div></div>',
+        f'<div class="kpi-label">🚨 Rule Anomalies</div>'
+        f'<div class="kpi-value danger">{bursts_count + pressure_count}</div></div>',
         unsafe_allow_html=True,
     )
 with k3:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">⚠️ Pressure Alerts</div>'
-        f'<div class="kpi-value danger">{pressure_count}</div></div>',
+        f'<div class="kpi-label">🧠 ML Detected</div>'
+        f'<div class="kpi-value warning" style="color:#f59e0b;">{ml_count}</div></div>',
         unsafe_allow_html=True,
     )
 with k4:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">📈 Anomaly Rate</div>'
+        f'<div class="kpi-label">📈 Rule Anomaly Rate</div>'
         f'<div class="kpi-value danger">{anomaly_rate:.1f}%</div></div>',
         unsafe_allow_html=True,
     )
@@ -432,10 +468,12 @@ with tab_data:
             return "background-color: rgba(231,76,60,0.3); color: #e74c3c; font-weight: bold"
         elif val == "Pressure Alert":
             return "background-color: rgba(243,156,18,0.3); color: #f39c12; font-weight: bold"
+        elif val == "ML Anomaly":
+            return "background-color: rgba(245,158,11,0.3); color: #f59e0b; font-weight: bold"
         return "color: #2ecc71"
 
-    styled = df_filtered.style.applymap(highlight_status, subset=["status"])
-    st.dataframe(styled, use_container_width=True, height=480)
+    styled = df_filtered.style.map(highlight_status, subset=["status", "ml_status"])
+    st.dataframe(styled, width='stretch', height=480)
     st.caption(f"Showing {len(df_filtered)} of {len(df)} sensors (after filters)")
 
 
@@ -451,24 +489,33 @@ with tab_anomaly:
         col_burst, col_pressure = st.columns(2)
 
         with col_burst:
-            st.markdown("#### 🚨 Major Bursts")
+            st.markdown("#### 🚨 Rule: Major Bursts")
             b = df_flagged[df_flagged["status"] == "Major Burst"][
                 ["sensor_id", "location_zone", "flow_rate_lpm", "baseline_mean", "pressure_psi"]
             ]
             if len(b):
-                st.dataframe(b, use_container_width=True, height=320)
+                st.dataframe(b, width='stretch', height=200)
             else:
                 st.info("No burst anomalies in current view.")
 
         with col_pressure:
-            st.markdown("#### ⚠️ Pressure Alerts")
+            st.markdown("#### ⚠️ Rule: Pressure Alerts")
             p = df_flagged[df_flagged["status"] == "Pressure Alert"][
                 ["sensor_id", "location_zone", "pressure_psi", "exceed_pct"]
             ]
             if len(p):
-                st.dataframe(p, use_container_width=True, height=320)
+                st.dataframe(p, width='stretch', height=200)
             else:
                 st.info("No pressure anomalies in current view.")
+                
+        st.markdown("#### 🧠 ML Detected Anomalies (Isolation Forest)")
+        ml_flagged = df_filtered[df_filtered["ml_status"] == "ML Anomaly"][
+                ["sensor_id", "location_zone", "status", "flow_rate_lpm", "baseline_mean", "pressure_psi"]
+        ]
+        if len(ml_flagged):
+            st.dataframe(ml_flagged, width='stretch', height=250)
+        else:
+            st.info("No ML anomalies in current view.")
 
         # Anomaly distribution pie
         st.markdown("")
@@ -623,7 +670,7 @@ with tab_charts:
 with tab_report:
     st.markdown('<div class="section-header">📝 Leak Report</div>', unsafe_allow_html=True)
 
-    df_all_flagged = df[df["status"] != "Normal"]
+    df_all_flagged = df[(df["status"] != "Normal") | (df["ml_status"] == "ML Anomaly")]
     report_text = build_report_text(df_all_flagged)
 
     st.code(report_text, language="text")

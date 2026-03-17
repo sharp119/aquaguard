@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AquaGuard Regional Performance Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1975d2",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#111921",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-6 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">water_drop</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">AquaGuard</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 md:gap-8">
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg" data-icon="search">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-0 h-full placeholder:text-slate-500 px-4 rounded-r-lg pl-2 text-base font-normal" placeholder="Search data points..." value=""/>
+</div>
+</label>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar of system operator" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIUVPlzDGMvfcXYjRqv5pBYB_5XZ4kQm14iWFBUb6VcKQ41mmHe5ckXR2MnWPpdXb-fuIa3R6x-4HNjnrojkd5tZoFeDqevIxdKiN_wMWakXxOn4_Qr3rNexQT9S0ptle7C1QsRaw2UdSI1E3d3c6hTHgBNzNatTTOTxMPgD_4IsixAQb1dkVDLjAnY8cmcuriGkYqSdZC8OUegJvj_7CmlMK9JFu13lgk2tqlMDBbJgbh3Lty7KoGX9zZs6kutVsSzdm96R5gae0");'></div>
+</div>
+</header>
+<div class="flex flex-1">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex w-64 flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white shadow-md shadow-primary/20 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">analytics</span>
+<p class="text-sm font-medium">Regional Analysis</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">location_on</span>
+<p class="text-sm font-medium">Zonal Metrics</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">sensors</span>
+<p class="text-sm font-medium">Sensor Health</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-primary/10 hover:text-primary rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">description</span>
+<p class="text-sm font-medium">Compliance Reports</p>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="bg-primary/5 rounded-xl p-4">
+<p class="text-xs font-bold text-primary uppercase tracking-wider mb-2">System Health</p>
+<div class="flex items-center gap-2">
+<div class="size-2 bg-green-500 rounded-full animate-pulse"></div>
+<p class="text-xs text-slate-500 dark:text-slate-400">All nodes online</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Page Header -->
+<div class="p-8 pb-4">
+<div class="flex flex-wrap justify-between items-end gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-3xl font-black leading-tight tracking-tight">Regional Performance Analysis</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg font-normal">Real-time zonal visualization and flow metrics for city management</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Last 30 Days</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-bold shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Export Data</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="px-8">
+<div class="flex border-b border-slate-200 dark:border-slate-800 gap-8">
+<a class="flex flex-col items-center border-b-[3px] border-primary text-primary pb-3 pt-4" href="#">
+<p class="text-sm font-bold leading-normal">Overview</p>
+</a>
+<a class="flex flex-col items-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 hover:text-slate-700 transition-colors" href="#">
+<p class="text-sm font-bold leading-normal">Flow Analysis</p>
+</a>
+<a class="flex flex-col items-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 hover:text-slate-700 transition-colors" href="#">
+<p class="text-sm font-bold leading-normal">Water Loss</p>
+</a>
+<a class="flex flex-col items-center border-b-[3px] border-transparent text-slate-500 dark:text-slate-400 pb-3 pt-4 hover:text-slate-700 transition-colors" href="#">
+<p class="text-sm font-bold leading-normal">Sensor Status</p>
+</a>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 p-8">
+<!-- Chart 1: Actual vs. Baseline Flow (Grouped Bar Chart Simulation) -->
+<div class="flex flex-col gap-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Actual vs. Baseline Flow by Zone</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Total throughput measured in Millions of Gallons</p>
+</div>
+<div class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest">
+<div class="flex items-center gap-2">
+<div class="size-3 bg-primary rounded-sm"></div>
+<span class="text-slate-500">Actual</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 bg-slate-200 dark:bg-slate-700 rounded-sm"></div>
+<span class="text-slate-500">Baseline</span>
+</div>
+</div>
+</div>
+<div class="grid h-64 grid-cols-5 gap-4 items-end px-2">
+<!-- North Zone -->
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<div class="flex gap-1 w-full h-full items-end justify-center">
+<div class="bg-primary w-1/3 rounded-t-sm" style="height: 65%;"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-1/3 rounded-t-sm" style="height: 60%;"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">North</p>
+</div>
+<!-- South Zone -->
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<div class="flex gap-1 w-full h-full items-end justify-center">
+<div class="bg-primary w-1/3 rounded-t-sm" style="height: 85%;"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-1/3 rounded-t-sm" style="height: 75%;"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">South</p>
+</div>
+<!-- East Zone -->
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<div class="flex gap-1 w-full h-full items-end justify-center">
+<div class="bg-primary w-1/3 rounded-t-sm" style="height: 45%;"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-1/3 rounded-t-sm" style="height: 50%;"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">East</p>
+</div>
+<!-- West Zone -->
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<div class="flex gap-1 w-full h-full items-end justify-center">
+<div class="bg-primary w-1/3 rounded-t-sm" style="height: 70%;"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-1/3 rounded-t-sm" style="height: 68%;"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">West</p>
+</div>
+<!-- Central Zone -->
+<div class="flex flex-col items-center gap-2 h-full justify-end">
+<div class="flex gap-1 w-full h-full items-end justify-center">
+<div class="bg-primary w-1/3 rounded-t-sm" style="height: 95%;"></div>
+<div class="bg-slate-200 dark:bg-slate-700 w-1/3 rounded-t-sm" style="height: 90%;"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">Central</p>
+</div>
+</div>
+</div>
+<!-- Chart 2: Water Loss by Zone (Delta Bar Chart Simulation) -->
+<div class="flex flex-col gap-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Water Loss by Zone (Delta)</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Deviation from expected baseline performance</p>
+</div>
+<div class="flex flex-col items-end">
+<p class="text-red-500 text-2xl font-black">1.2M Gal</p>
+<p class="text-slate-500 text-xs font-bold">TOTAL LOSS</p>
+</div>
+</div>
+<div class="grid h-64 grid-cols-5 gap-4 items-center px-2 relative">
+<!-- Baseline Zero Line -->
+<div class="absolute w-full h-px bg-slate-300 dark:bg-slate-600 top-1/2 left-0 z-0"></div>
+<!-- North Delta -->
+<div class="flex flex-col items-center gap-2 h-full z-10">
+<div class="w-full h-full flex flex-col">
+<div class="h-1/2 flex items-end justify-center">
+<div class="bg-red-400 w-8 rounded-t-sm" style="height: 30%;"></div>
+</div>
+<div class="h-1/2"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">North</p>
+</div>
+<!-- South Delta -->
+<div class="flex flex-col items-center gap-2 h-full z-10">
+<div class="w-full h-full flex flex-col">
+<div class="h-1/2 flex items-end justify-center">
+<div class="bg-red-500 w-8 rounded-t-sm" style="height: 80%;"></div>
+</div>
+<div class="h-1/2"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">South</p>
+</div>
+<!-- East Delta (Savings/Negative Loss) -->
+<div class="flex flex-col items-center gap-2 h-full z-10">
+<div class="w-full h-full flex flex-col">
+<div class="h-1/2"></div>
+<div class="h-1/2 flex items-start justify-center">
+<div class="bg-green-500 w-8 rounded-b-sm" style="height: 15%;"></div>
+</div>
+</div>
+<p class="text-slate-500 text-xs font-bold">East</p>
+</div>
+<!-- West Delta -->
+<div class="flex flex-col items-center gap-2 h-full z-10">
+<div class="w-full h-full flex flex-col">
+<div class="h-1/2 flex items-end justify-center">
+<div class="bg-red-400 w-8 rounded-t-sm" style="height: 55%;"></div>
+</div>
+<div class="h-1/2"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">West</p>
+</div>
+<!-- Central Delta -->
+<div class="flex flex-col items-center gap-2 h-full z-10">
+<div class="w-full h-full flex flex-col">
+<div class="h-1/2 flex items-end justify-center">
+<div class="bg-red-600 w-8 rounded-t-sm" style="height: 25%;"></div>
+</div>
+<div class="h-1/2"></div>
+</div>
+<p class="text-slate-500 text-xs font-bold">Central</p>
+</div>
+</div>
+</div>
+<!-- Chart 3: Sensor Status Breakdown (Stacked Bar Chart Simulation) -->
+<div class="flex flex-col gap-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm xl:col-span-2">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div>
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Sensor Status Breakdown by Zone</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Health distribution of flow and pressure monitoring nodes</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="size-3 bg-primary rounded-full"></div>
+<span class="text-slate-500 text-xs font-bold">HEALTHY</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 bg-red-400 rounded-full"></div>
+<span class="text-slate-500 text-xs font-bold">ANOMALOUS</span>
+</div>
+<div class="flex items-center gap-2 border-l border-slate-200 dark:border-slate-800 pl-4">
+<p class="text-slate-900 dark:text-white font-black">94%</p>
+<span class="text-slate-500 text-xs font-bold uppercase">Avg Health</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<!-- North Stacked Row -->
+<div class="grid grid-cols-[100px_1fr] items-center gap-4">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">North</span>
+<div class="flex h-8 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="bg-primary h-full" style="width: 88%;"></div>
+<div class="bg-red-400 h-full" style="width: 12%;"></div>
+</div>
+</div>
+<!-- South Stacked Row -->
+<div class="grid grid-cols-[100px_1fr] items-center gap-4">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">South</span>
+<div class="flex h-8 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="bg-primary h-full" style="width: 95%;"></div>
+<div class="bg-red-400 h-full" style="width: 5%;"></div>
+</div>
+</div>
+<!-- East Stacked Row -->
+<div class="grid grid-cols-[100px_1fr] items-center gap-4">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">East</span>
+<div class="flex h-8 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="bg-primary h-full" style="width: 92%;"></div>
+<div class="bg-red-400 h-full" style="width: 8%;"></div>
+</div>
+</div>
+<!-- West Stacked Row -->
+<div class="grid grid-cols-[100px_1fr] items-center gap-4">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">West</span>
+<div class="flex h-8 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="bg-primary h-full" style="width: 82%;"></div>
+<div class="bg-red-400 h-full" style="width: 18%;"></div>
+</div>
+</div>
+<!-- Central Stacked Row -->
+<div class="grid grid-cols-[100px_1fr] items-center gap-4">
+<span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Central</span>
+<div class="flex h-8 w-full rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+<div class="bg-primary h-full" style="width: 98%;"></div>
+<div class="bg-red-400 h-full" style="width: 2%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Cards -->
+<div class="flex flex-col gap-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold mb-2">Regional Map Overview</h3>
+<div class="relative w-full aspect-video rounded-lg overflow-hidden bg-slate-200 dark:bg-slate-800">
+<div class="absolute inset-0 opacity-40 mix-blend-multiply dark:mix-blend-overlay bg-primary/20" data-alt="Schematic map of municipal water zones" data-location="City Center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAz4jsJnoh0CZi63io2iwSWTCOkuz89PoO9BFMvOhTt3BfDxF-WjKoIksYVzJvNvef2roV8tZRQTkv8j5_PTGHsIhpO1_lk-mUXPb8bWlBtWIGJ1iG1q20OQlE7TuNkFgDxEDNmwwZ1Wew6h7ZwVtSC3vyrErPGlKgXlnvfIIfZUuEX6cLZapyktbB3r3SocllFN-JKhoRHkn5FIuDwDNg-OhsBWrSo1OBBI3lj_bhvHgLv7V626deOrxwckNwZo_kU3w7Ay0_EwLU");'></div>
+<!-- Map Markers -->
+<div class="absolute top-1/4 left-1/3 size-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+<div class="absolute top-1/2 left-1/2 size-4 bg-primary rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+<div class="absolute bottom-1/3 right-1/4 size-4 bg-red-500 rounded-full border-2 border-white shadow-lg"></div>
+</div>
+</div>
+<div class="flex flex-col gap-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold">Recent Maintenance Logs</h3>
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">build</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Valve Repair - South Zone</p>
+<span class="text-xs text-slate-500">2h ago</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Maintenance team completed inspection of node S-142.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">update</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-sm font-bold text-slate-900 dark:text-white">Firmware Update Push</p>
+<span class="text-xs text-slate-500">5h ago</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">OTA firmware version 4.2.1 successfully deployed to West Zone.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2 rounded-lg">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center">
+<p class="text-sm font-bold text-slate-900 dark:text-white">East Zone Calibration</p>
+<span class="text-xs text-slate-500">Yesterday</span>
+</div>
+<p class="text-xs text-slate-500 mt-1">Flow meters recalibrated; variance now within 0.1% margin.</p>
+</div>
+</div>
+</div>
+<button class="w-full py-2 text-primary font-bold text-sm border border-primary/20 rounded-lg hover:bg-primary/5 transition-colors">
+                            View All Logs
+                        </button>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</body></html>
