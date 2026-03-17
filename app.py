@@ -192,69 +192,111 @@ st.set_page_config(
 # Custom CSS
 st.markdown("""
 <style>
-    /* -- Global -- */
+    /* -- Global Typography & Background -- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif;
+    }
+    
     .stApp {
-        background: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 50%, #16213e 100%);
+        background-color: #0f172a; /* Slate 900 */
+        background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.04), transparent 25%),
+                          radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.04), transparent 25%);
     }
 
     /* -- KPI Cards -- */
     .kpi-card {
-        background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 16px;
+        background: rgba(30, 41, 59, 0.7); /* Slate 800 with opacity */
+        border: 1px solid rgba(148, 163, 184, 0.1); /* Subtle border */
+        border-radius: 12px;
         padding: 24px 20px;
         text-align: center;
-        backdrop-filter: blur(12px);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
     .kpi-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 32px rgba(52, 152, 219, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border-color: rgba(56, 189, 248, 0.3);
     }
     .kpi-value {
-        font-size: 2.8rem;
-        font-weight: 800;
-        margin: 4px 0;
-        background: linear-gradient(90deg, #3498db, #2ecc71);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 8px 0 4px 0;
+        color: #f1f5f9; /* Slate 100 */
         line-height: 1.2;
     }
     .kpi-value.danger {
-        background: linear-gradient(90deg, #e74c3c, #f39c12);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #ef4444; /* Red 500 */
     }
     .kpi-label {
-        font-size: 0.9rem;
-        color: rgba(255,255,255,0.6);
+        font-size: 0.85rem;
+        color: #94a3b8; /* Slate 400 */
         text-transform: uppercase;
-        letter-spacing: 1.5px;
+        letter-spacing: 0.05em;
         font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
     }
 
     /* -- Section headers -- */
     .section-header {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #ecf0f1;
-        margin: 32px 0 16px 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #f8fafc; /* Slate 50 */
+        margin: 28px 0 16px 0;
         padding-bottom: 8px;
-        border-bottom: 2px solid rgba(52, 152, 219, 0.4);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        letter-spacing: -0.01em;
     }
 
     /* -- Sidebar -- */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a1a2e 0%, #0f0c29 100%);
+        background-color: #0f172a;
+        border-right: 1px solid rgba(148, 163, 184, 0.1);
     }
-    section[data-testid="stSidebar"] .stMarkdown {
-        color: #ecf0f1;
+    section[data-testid="stSidebar"] .stMarkdown h2, 
+    section[data-testid="stSidebar"] .stMarkdown h3 {
+        color: #f1f5f9;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+    }
+    section[data-testid="stSidebar"] .stMarkdown p {
+        color: #94a3b8;
     }
 
-    /* -- Tables -- */
+    /* -- Tables & DataFrames -- */
     .stDataFrame {
-        border-radius: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.1);
         overflow: hidden;
+    }
+    
+    /* -- General Text -- */
+    p, li {
+        color: #cbd5e1; /* Slate 300 */
+    }
+    
+    /* -- Main Title -- */
+    .main-title {
+        text-align: center; 
+        color: #f8fafc; 
+        margin-bottom: 0;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        font-size: 2.5rem;
+    }
+    .sub-title {
+        text-align: center; 
+        color: #94a3b8; 
+        margin-top: 8px;
+        font-size: 1.1rem;
+        font-weight: 400;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -318,10 +360,8 @@ df_filtered = df[mask]
 # Header
 # ─────────────────────────────────────────────
 st.markdown(
-    "<h1 style='text-align:center; color:#ecf0f1; margin-bottom:0;'>"
-    "🌊 AquaGuard Dashboard</h1>"
-    "<p style='text-align:center; color:rgba(255,255,255,0.5); margin-top:4px;'>"
-    "Real-time Water Leakage Detection &amp; Monitoring System</p>",
+    "<h1 class='main-title'>🌊 AquaGuard Dashboard</h1>"
+    "<div class='sub-title'>Real-time Water Leakage Detection &amp; Monitoring System</div>",
     unsafe_allow_html=True,
 )
 st.markdown("")
@@ -341,28 +381,28 @@ k1, k2, k3, k4 = st.columns(4)
 with k1:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">Total Sensors</div>'
+        f'<div class="kpi-label">📡 Total Sensors</div>'
         f'<div class="kpi-value">{total}</div></div>',
         unsafe_allow_html=True,
     )
 with k2:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">Major Bursts</div>'
+        f'<div class="kpi-label">🚨 Major Bursts</div>'
         f'<div class="kpi-value danger">{bursts_count}</div></div>',
         unsafe_allow_html=True,
     )
 with k3:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">Pressure Alerts</div>'
+        f'<div class="kpi-label">⚠️ Pressure Alerts</div>'
         f'<div class="kpi-value danger">{pressure_count}</div></div>',
         unsafe_allow_html=True,
     )
 with k4:
     st.markdown(
         f'<div class="kpi-card">'
-        f'<div class="kpi-label">Anomaly Rate</div>'
+        f'<div class="kpi-label">📈 Anomaly Rate</div>'
         f'<div class="kpi-value danger">{anomaly_rate:.1f}%</div></div>',
         unsafe_allow_html=True,
     )
@@ -486,11 +526,11 @@ with tab_charts:
         yaxis_title="Flow Rate (LPM)",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#ecf0f1",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
+        font_color="#f8fafc",
+        legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "center", "x": 0.5},
     )
-    fig_bar.update_xaxes(showgrid=False)
-    fig_bar.update_yaxes(gridcolor="rgba(255,255,255,0.1)")
+    fig_bar.update_xaxes(showgrid=False, linecolor="rgba(148, 163, 184, 0.2)")
+    fig_bar.update_yaxes(gridcolor="rgba(148, 163, 184, 0.1)", linecolor="rgba(148, 163, 184, 0.2)")
     st.plotly_chart(fig_bar, use_container_width=True)
 
     # --- Chart 2: Water Loss by Zone ---
@@ -506,10 +546,10 @@ with tab_charts:
     fig_loss.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#ecf0f1",
+        font_color="#f8fafc",
     )
-    fig_loss.update_xaxes(showgrid=False)
-    fig_loss.update_yaxes(gridcolor="rgba(255,255,255,0.1)")
+    fig_loss.update_xaxes(showgrid=False, linecolor="rgba(148, 163, 184, 0.2)")
+    fig_loss.update_yaxes(gridcolor="rgba(148, 163, 184, 0.1)", linecolor="rgba(148, 163, 184, 0.2)")
     st.plotly_chart(fig_loss, use_container_width=True)
 
     # --- Chart 3: Pressure Distribution ---
@@ -540,10 +580,11 @@ with tab_charts:
     fig_pressure.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#ecf0f1",
+        font_color="#f8fafc",
         xaxis=dict(showticklabels=False),
     )
-    fig_pressure.update_yaxes(gridcolor="rgba(255,255,255,0.1)")
+    fig_pressure.update_xaxes(showgrid=False, linecolor="rgba(148, 163, 184, 0.2)")
+    fig_pressure.update_yaxes(gridcolor="rgba(148, 163, 184, 0.1)", linecolor="rgba(148, 163, 184, 0.2)")
     st.plotly_chart(fig_pressure, use_container_width=True)
 
     # --- Chart 4: Anomaly Count per Zone ---
@@ -570,11 +611,11 @@ with tab_charts:
     fig_heat.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#ecf0f1",
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5),
+        font_color="#f8fafc",
+        legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "center", "x": 0.5},
     )
-    fig_heat.update_xaxes(showgrid=False)
-    fig_heat.update_yaxes(gridcolor="rgba(255,255,255,0.1)")
+    fig_heat.update_xaxes(showgrid=False, linecolor="rgba(148, 163, 184, 0.2)")
+    fig_heat.update_yaxes(gridcolor="rgba(148, 163, 184, 0.1)", linecolor="rgba(148, 163, 184, 0.2)")
     st.plotly_chart(fig_heat, use_container_width=True)
 
 
@@ -622,32 +663,34 @@ with tab_drill:
         st.markdown(
             f"""
             <div style="
-                background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-                border: 1px solid rgba(255,255,255,0.12);
-                border-radius: 16px;
-                padding: 28px 32px;
+                background: rgba(30, 41, 59, 0.7);
+                border: 1px solid rgba(148, 163, 184, 0.15);
+                border-radius: 12px;
+                padding: 24px 32px;
                 margin-top: 12px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             ">
                 <div style="display:flex; align-items:center; gap:12px; margin-bottom:18px;">
-                    <span style="font-size:1.6rem; font-weight:800; color:#ecf0f1;">{row['sensor_id']}</span>
+                    <span style="font-size:1.6rem; font-weight:700; color:#f8fafc;">{row['sensor_id']}</span>
                     <span style="
-                        background: {badge_color.get(status, '#95a5a6')};
-                        color: #fff;
-                        padding: 4px 14px;
+                        background: {badge_color.get(status, '#94a3b8')};
+                        color: #ffffff;
+                        padding: 4px 12px;
                         border-radius: 20px;
                         font-size: 0.8rem;
-                        font-weight: 700;
+                        font-weight: 600;
+                        letter-spacing: 0.05em;
                     ">{status}</span>
                 </div>
-                <table style="width:100%; color:#bdc3c7; font-size:1rem;">
-                    <tr><td style="padding:6px 0; color:rgba(255,255,255,0.5);">Zone</td>
-                        <td style="padding:6px 0; font-weight:600; color:#ecf0f1;">{row['location_zone']}</td></tr>
-                    <tr><td style="padding:6px 0; color:rgba(255,255,255,0.5);">Flow Rate</td>
-                        <td style="padding:6px 0; font-weight:600; color:#ecf0f1;">{row['flow_rate_lpm']} LPM</td></tr>
-                    <tr><td style="padding:6px 0; color:rgba(255,255,255,0.5);">Baseline Mean</td>
-                        <td style="padding:6px 0; font-weight:600; color:#ecf0f1;">{row['baseline_mean']} LPM</td></tr>
-                    <tr><td style="padding:6px 0; color:rgba(255,255,255,0.5);">Pressure</td>
-                        <td style="padding:6px 0; font-weight:600; color:#ecf0f1;">{row['pressure_psi']} PSI</td></tr>
+                <table style="width:100%; font-size:1.05rem;">
+                    <tr><td style="padding:8px 0; color:#94a3b8; border-bottom:1px solid rgba(148,163,184,0.1);">Zone</td>
+                        <td style="padding:8px 0; font-weight:500; color:#f1f5f9; border-bottom:1px solid rgba(148,163,184,0.1);">{row['location_zone']}</td></tr>
+                    <tr><td style="padding:8px 0; color:#94a3b8; border-bottom:1px solid rgba(148,163,184,0.1);">Flow Rate</td>
+                        <td style="padding:8px 0; font-weight:500; color:#f1f5f9; border-bottom:1px solid rgba(148,163,184,0.1);">{row['flow_rate_lpm']} LPM</td></tr>
+                    <tr><td style="padding:8px 0; color:#94a3b8; border-bottom:1px solid rgba(148,163,184,0.1);">Baseline Mean</td>
+                        <td style="padding:8px 0; font-weight:500; color:#f1f5f9; border-bottom:1px solid rgba(148,163,184,0.1);">{row['baseline_mean']} LPM</td></tr>
+                    <tr><td style="padding:8px 0; color:#94a3b8;">Pressure</td>
+                        <td style="padding:8px 0; font-weight:500; color:#f1f5f9;">{row['pressure_psi']} PSI</td></tr>
                 </table>
             </div>
             """,
