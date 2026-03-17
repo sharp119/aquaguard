@@ -1,0 +1,51 @@
+================================================================================
+  AQUAGUARD — WATER LEAKAGE DETECTION REPORT
+================================================================================
+
+Total Sensors Scanned:  400
+Total Anomalies Found:  32
+Anomaly Rate:           8.0%
+
+--------------------------------------------------------------------------------
+
+🚨 MAJOR BURSTS
+----------------------------------------
+  S_IB_001     | Industrial_B     | Flow: 0.0 LPM | Baseline: 96.7 LPM | Pressure: 34.1 PSI
+  S_MA_002     | Municipal_A      | Flow: 0.0 LPM | Baseline: 33.6 LPM | Pressure: 36.2 PSI
+  S_RB_002     | Residential_B    | Flow: 0.0 LPM | Baseline: 21.8 LPM | Pressure: 31.3 PSI
+  S_RB_003     | Residential_B    | Flow: 0.0 LPM | Baseline: 14.4 LPM | Pressure: 50.2 PSI
+  S_RB_001     | Residential_B    | Flow: 0.0 LPM | Baseline: 10.5 LPM | Pressure: 41.0 PSI
+  S_CB_003     | Commercial_B     | Flow: 0.0 LPM | Baseline: 103.5 LPM | Pressure: 58.2 PSI
+  S_MA_001     | Municipal_A      | Flow: 0.0 LPM | Baseline: 28.8 LPM | Pressure: 53.6 PSI
+  S_CB_001     | Commercial_B     | Flow: 0.0 LPM | Baseline: 51.2 LPM | Pressure: 45.2 PSI
+  S_RA_004     | Residential_A    | Flow: 0.0 LPM | Baseline: 23.2 LPM | Pressure: 60.9 PSI
+  S_RA_002     | Residential_A    | Flow: 0.0 LPM | Baseline: 25.2 LPM | Pressure: 36.4 PSI
+  S_CB_002     | Commercial_B     | Flow: 0.0 LPM | Baseline: 133.2 LPM | Pressure: 54.1 PSI
+  S_RA_003     | Residential_A    | Flow: 0.0 LPM | Baseline: 24.6 LPM | Pressure: 51.4 PSI
+  S_RA_001     | Residential_A    | Flow: 0.0 LPM | Baseline: 21.2 LPM | Pressure: 58.6 PSI
+  S_MA_003     | Municipal_A      | Flow: 0.0 LPM | Baseline: 23.2 LPM | Pressure: 41.7 PSI
+  S_MA_004     | Municipal_A      | Flow: 0.0 LPM | Baseline: 31.1 LPM | Pressure: 55.4 PSI
+  S_RB_004     | Residential_B    | Flow: 0.0 LPM | Baseline: 27.1 LPM | Pressure: 64.7 PSI
+
+⚠️  PRESSURE ALERTS
+----------------------------------------
+  S_CB_005     | Commercial_B     | Pressure: 115.5 PSI | Exceeds by: 44.4%
+  S_CB_004     | Commercial_B     | Pressure: 107.1 PSI | Exceeds by: 33.9%
+  S_IB_002     | Industrial_B     | Pressure: 111.3 PSI | Exceeds by: 39.1%
+  S_IB_003     | Industrial_B     | Pressure: 96.6 PSI | Exceeds by: 20.7%
+  S_RA_005     | Residential_A    | Pressure: 115.5 PSI | Exceeds by: 44.4%
+  S_IA_003     | Industrial_A     | Pressure: 115.2 PSI | Exceeds by: 44.0%
+  S_RB_005     | Residential_B    | Pressure: 109.4 PSI | Exceeds by: 36.8%
+  S_IA_002     | Industrial_A     | Pressure: 83.5 PSI | Exceeds by: 4.4%
+  S_IA_001     | Industrial_A     | Pressure: 117.1 PSI | Exceeds by: 46.4%
+  S_RB_007     | Residential_B    | Pressure: 87.0 PSI | Exceeds by: 8.8%
+  S_CA_001     | Commercial_A     | Pressure: 103.8 PSI | Exceeds by: 29.8%
+  S_CB_006     | Commercial_B     | Pressure: 100.9 PSI | Exceeds by: 26.1%
+  S_CA_002     | Commercial_A     | Pressure: 92.4 PSI | Exceeds by: 15.5%
+  S_DA_001     | Downtown_A       | Pressure: 110.1 PSI | Exceeds by: 37.6%
+  S_RB_006     | Residential_B    | Pressure: 115.2 PSI | Exceeds by: 44.0%
+  S_MA_005     | Municipal_A      | Pressure: 90.8 PSI | Exceeds by: 13.5%
+
+================================================================================
+  END OF REPORT
+================================================================================
